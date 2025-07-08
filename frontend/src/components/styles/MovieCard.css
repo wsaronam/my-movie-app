@@ -1,0 +1,24 @@
+.movie-card {
+  border: 1px solid #070236;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background-color: #08067a;
+}
+
+.movie-card button {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.movie-card .watch-btn {
+  background-color: #3498db;
+}
+
+.movie-card .delete-btn {
+  background-color: #e74c3c;
+}
