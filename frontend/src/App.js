@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './georgia-vagim-movie.jpg';
 import './App.css';
 
 import MovieCard from './components/MovieCard';
