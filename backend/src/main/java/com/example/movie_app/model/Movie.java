@@ -19,7 +19,7 @@ public class Movie {
 
     private String title;
     private String description;
-    private int year;
+    private int releaseYear;
     private boolean watched;
     private String review;
 }
