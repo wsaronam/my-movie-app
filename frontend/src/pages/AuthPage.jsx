@@ -18,16 +18,22 @@ const AuthPage = () => {
     const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.valoue });
+        //setForm({ ...form, [e.target.name]: e.target.valoue });
+        const { name, value } = e.target;
+        setForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const endpoint = isLogin ? '/api/auth/login' : '/api.auth/register';
+        const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
 
         try {
             const res = await axios.post('http://localhost:8080${endpoint}', form);
             setMessage(res.data);
+            console.log(res.data);  // delete later
             if (isLogin && res.data === "Login successful") {
                 alert("log in")
                 navigate('/home');

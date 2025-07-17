@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
@@ -26,15 +28,22 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
-        if (userRepo.existsByUsername(user.getUsername())) {
-            return "Username already taken";
+    public ResponseEntity<String> register(@RequestBody User user) {
+        try {
+            if (userRepo.existsByUsername(user.getUsername())) {
+                return ResponseEntity.badRequest().body("Username already taken");
+            }
+            else {
+                user.setPassword(passEncoder.encode(user.getPassword()));
+                userRepo.save(user);
+                return ResponseEntity.ok("User registered successfully");
+            }
         }
-        else {
-            user.setPassword(passEncoder.encode(user.getPassword()));
-            userRepo.save(user);
-            return "User registered successfully";
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
         }
+        
     }
     
     @PostMapping("/login")
