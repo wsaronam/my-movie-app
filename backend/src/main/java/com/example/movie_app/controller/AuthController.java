@@ -49,7 +49,7 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody User loginUser) {
         return userRepo.findByUsername(loginUser.getUsername())
-            .filter(user -> passEncoder.matches(user.getPassword(), loginUser.getPassword()))
+            .filter(user -> passEncoder.matches(loginUser.getPassword(), user.getPassword()))
             .map(user -> "Login successful")
             .orElse("Username and Password do not match");
     }

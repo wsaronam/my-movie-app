@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import logo from '../georgia-vagim-movie.jpg';
 import "./styles/AuthPage.css";
 
 import { useNavigate } from 'react-router-dom';
@@ -29,9 +30,11 @@ const AuthPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+        // console.log("submitting...");
 
         try {
-            const res = await axios.post('http://localhost:8080${endpoint}', form);
+            // console.log("Sending POST to:", `http://localhost:8080${endpoint}`);
+            const res = await axios.post(`http://localhost:8080${endpoint}`, form);
             setMessage(res.data);
             console.log(res.data);  // delete later
             if (isLogin && res.data === "Login successful") {
@@ -46,37 +49,50 @@ const AuthPage = () => {
 
 
     return (
-        <div className = "auth-container">
-            <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-                <form className="auth-form" onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        value={form.username}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={form.password}
-                        onChange={handleChange}
-                        required
-                    />
-                    <button className="toggle-btn" type="submit">
-                        {isLogin ? 'Login' : 'Sign Up'}
-                    </button>
-                </form>
+        <div className="App">
+            <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
             <p>
-                {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
-                <button onClick={() => setIsLogin(!isLogin)}>
-                    {isLogin ? 'Sign up' : 'Log in'}
-                </button>
+                Movie App
             </p>
-            {message && <p>{message}</p>}
+            <div className = "auth-container">
+                <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
+                    <form className="auth-form" onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            value={form.username}
+                            onChange={handleChange}
+                            required
+                        />
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={form.password}
+                            onChange={handleChange}
+                            required
+                        />
+                        <button className="toggle-btn" type="submit">
+                            {isLogin ? 'Login' : 'Sign Up'}
+                        </button>
+                    </form>
+                <p>
+                    {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
+                    <button onClick={() => {
+                        setIsLogin(!isLogin);
+                        setForm({ username: '', password: '' })
+                        setMessage('');
+                    }}>
+                        {isLogin ? 'Sign up' : 'Log in'}
+                    </button>
+                </p>
+                {message && <p>{message}</p>}
+            </div>
+            </header>
         </div>
+        
   );
 
 
