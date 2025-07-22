@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import logo from '../georgia-vagim-movie.jpg';
+import Header from '../components/Header'
 import "./styles/AuthPage.css";
 
-import { useNavigate } from 'react-router-dom';
+
 
 
 const AuthPage = () => {
@@ -35,10 +37,7 @@ const AuthPage = () => {
         try {
             // console.log("Sending POST to:", `http://localhost:8080${endpoint}`);
             const res = await axios.post(`http://localhost:8080${endpoint}`, form);
-            setMessage(res.data);
-            console.log(res.data);  // delete later
             if (isLogin && res.data === "Login successful") {
-                alert("log in")
                 navigate('/home');
             }
         }
