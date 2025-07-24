@@ -1,9 +1,14 @@
 package com.example.movie_app.model;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
+
 
 @Entity
 @Getter
@@ -19,4 +24,8 @@ public class User {
     private String username;
 
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private ArrayList<Movie> movies = new ArrayList<>();
 }

@@ -22,4 +22,9 @@ public class Movie {
     private int releaseYear;
     private boolean watched;
     private String review;
+
+    // we may use this in the future if we want to tie in a movie with the User
+    // @ManyToOne
+    // @JoinColumn(name = "user_id")
+    // private User user;
 }

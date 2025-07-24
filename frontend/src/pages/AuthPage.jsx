@@ -21,7 +21,6 @@ const AuthPage = () => {
     const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
-        //setForm({ ...form, [e.target.name]: e.target.valoue });
         const { name, value } = e.target;
         setForm(prev => ({
             ...prev,
@@ -32,14 +31,15 @@ const AuthPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-        // console.log("submitting...");
 
         try {
-            // console.log("Sending POST to:", `http://localhost:8080${endpoint}`);
             const res = await axios.post(`http://localhost:8080${endpoint}`, form);
             if (isLogin && res.data === "Login successful") {
                 localStorage.setItem('isLogin', true);
                 navigate('/home');
+            }
+            else {
+                setMessage(res.data);
             }
         }
         catch (err) {
@@ -88,7 +88,7 @@ const AuthPage = () => {
                         {isLogin ? 'Sign up' : 'Log in'}
                     </button>
                 </p>
-                {message && <p>{message}</p>}
+                {message && <p className="auth-error">{message}</p>}
             </div>
             </header>
         </div>
