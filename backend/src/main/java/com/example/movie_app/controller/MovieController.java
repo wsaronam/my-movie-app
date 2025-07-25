@@ -71,4 +71,15 @@ public class MovieController {
 
         return ResponseEntity.ok(user.getMovies());
     }
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<?> removeMovie(@RequestParam String username, @RequestParam Long movieId) {
+        User user = userRepo.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.getMovies().removeIf(movie -> movie.getId().equals(movieId));
+        userRepo.save(user);
+
+        return ResponseEntity.ok("Movie removed");
+    }
 }

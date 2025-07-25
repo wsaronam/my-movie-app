@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-    ArrayList<Movie> findByUser(User user);
+    // ArrayList<Movie> findByUser(User user);
 }
