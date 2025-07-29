@@ -31,7 +31,8 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody User user) {
         try {
             if (userRepo.existsByUsername(user.getUsername())) {
-                return ResponseEntity.badRequest().body("Username already taken");
+                return ResponseEntity.badRequest()
+                    .body("Username already taken");
             }
             else {
                 user.setPassword(passEncoder.encode(user.getPassword()));
@@ -41,7 +42,8 @@ public class AuthController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Registration failed: " + e.getMessage());
         }
         
     }

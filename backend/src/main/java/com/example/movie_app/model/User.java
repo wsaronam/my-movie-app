@@ -1,6 +1,6 @@
 package com.example.movie_app.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,5 +27,5 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private ArrayList<Movie> movies = new ArrayList<>();
+    private List<Movie> movies;
 }

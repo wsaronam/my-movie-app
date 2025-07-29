@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -65,7 +65,7 @@ public class MovieController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<ArrayList<Movie>> getMovies(@RequestParam String username) {
+    public ResponseEntity<List<Movie>> getMovies(@RequestParam String username) {
         User user = userRepo.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
 

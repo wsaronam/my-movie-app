@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import logo from '../georgia-vagim-movie.jpg';
@@ -10,6 +11,9 @@ import '../App.css';
 const HomePage = () => {
 
   const navigate = useNavigate();
+
+  const [showAddForm, setShowAddForm] = useState(false);
+
 
   const testMovie = {
     id: 0,
@@ -25,6 +29,10 @@ const HomePage = () => {
     navigate('/');
   };
 
+  const handleAddMovie = () => {
+    alert(`added alert`);
+  };
+
   const handleToggleWatched = (movie) => {
     alert(`watched alert`);
   };
@@ -38,16 +46,45 @@ const HomePage = () => {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-            Movie App
+          Movie App
         </p>
         <button className="logout-button" onClick={handleLogout}>
-            Logout
+          Logout
         </button>
-        <MovieCard 
-            movie={testMovie}
-            onToggleWatched={handleToggleWatched}
-            onDelete={handleDelete} 
-        />
+        <button onClick={() => setShowAddForm(!showAddForm)}>
+          {showAddForm ? 'Cancel' : 'Add New Movie'}
+        </button>
+        {showAddForm && (
+          <div>
+            <input
+              type="text"
+              placeholder="Title"
+            />
+            <input
+              type="text"
+              placeholder="Description"
+            />
+            <input
+              type="number"
+              placeholder="Release Year"
+            />
+            <label>Watched?:</label>
+            <input
+              type="checkbox"
+              placeholder="Watched?"
+            />
+            <input
+              type="text"
+              placeholder="Your Review"
+            />
+            <button onClick={handleAddMovie}>Submit</button>
+          </div>
+        )}
+        {/* <MovieCard 
+          movie={testMovie}
+          onToggleWatched={handleToggleWatched}
+          onDelete={handleDelete} 
+        /> */}
       </header>
     </div>
   );
