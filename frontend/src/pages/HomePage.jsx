@@ -5,6 +5,7 @@ import logo from '../georgia-vagim-movie.jpg';
 import MovieCard from '../components/MovieCard';
 
 import '../App.css';
+import './styles/HomePage.css';
 
 
 
@@ -55,12 +56,12 @@ const HomePage = () => {
           {showAddForm ? 'Cancel' : 'Add New Movie'}
         </button>
         {showAddForm && (
-          <div>
+          <div className="movie-form">
             <input
               type="text"
               placeholder="Title"
             />
-            <input
+            <textarea
               type="text"
               placeholder="Description"
             />
@@ -71,9 +72,8 @@ const HomePage = () => {
             <label>Watched?:</label>
             <input
               type="checkbox"
-              placeholder="Watched?"
             />
-            <input
+            <textarea
               type="text"
               placeholder="Your Review"
             />
