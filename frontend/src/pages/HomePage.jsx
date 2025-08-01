@@ -13,6 +13,12 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
+  const [newTitle, setNewTitle] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+  const [newReleaseYear, setNewReleaseYear] = useState(1900);
+  const [newHasWatched, setNewHasWatched] = useState(false);
+  const [newReview, setNewReview] = useState('');
+
   const [showAddForm, setShowAddForm] = useState(false);
 
 
@@ -30,8 +36,40 @@ const HomePage = () => {
     navigate('/');
   };
 
-  const handleAddMovie = () => {
-    alert(`added alert`);
+  const handleAddMovie = async () => {
+    const username = localStorage.getItem("username");
+
+    const newMovie = {
+      title: newTitle,
+      description: newDescription,
+      releaseYear: newReleaseYear,
+      watched: newHasWatched,
+      review: newReview
+    };
+
+    try {
+      const res = await fetch(`http://localhost:8080/api/movies/add?username=${username}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newMovie),
+      });
+
+      if (res.ok) {
+        const savedMovie = await res.json();
+        console.log("Movie added:", savedMovie);
+        setNewTitle('');
+        setNewDescription('');
+        setNewReleaseYear(1900);
+        setNewHasWatched(false);
+        setNewReview('');
+      } 
+      else {
+        console.error("Failed to add movie");
+      }
+    } 
+    catch (err) {
+      console.error(err);
+    }
   };
 
   const handleToggleWatched = (movie) => {
@@ -59,22 +97,32 @@ const HomePage = () => {
           <div className="movie-form">
             <input
               type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Title"
             />
             <textarea
               type="text"
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
               placeholder="Description"
             />
             <input
               type="number"
+              value={newReleaseYear}
+              onChange={(e) => setNewReleaseYear(e.target.value)}
               placeholder="Release Year"
             />
             <label>Watched?:</label>
             <input
               type="checkbox"
+              value={newHasWatched}
+              onChange={(e) => setNewHasWatched(e.target.value)}
             />
             <textarea
               type="text"
+              value={newReview}
+              onChange={(e) => setNewReview(e.target.value)}
               placeholder="Your Review"
             />
             <button onClick={handleAddMovie}>Submit</button>
