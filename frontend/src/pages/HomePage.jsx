@@ -13,6 +13,8 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
+  const username = localStorage.getItem("username");
+
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [newReleaseYear, setNewReleaseYear] = useState(1900);
