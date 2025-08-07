@@ -3,11 +3,13 @@ package com.example.movie_app.config;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
 
 
-
+@Component
 public class JwtUtil {
     private final String jwtSecret = "jwtSecret_key_goes_here";  // Good key goes here
 
