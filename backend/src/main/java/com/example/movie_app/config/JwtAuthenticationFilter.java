@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -13,14 +12,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import com.example.movie_app.service.CustomUserDetailsService;
+
 
 
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
     private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsService uds) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, CustomUserDetailsService uds) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = uds; // WE MAY NEED TO MAKE A CUSTOM userDetailsService FOR THIS TO WORK.
     }

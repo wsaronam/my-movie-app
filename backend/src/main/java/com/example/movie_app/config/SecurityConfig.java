@@ -10,9 +10,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+
+import com.example.movie_app.service.CustomUserDetailsService;
 
 
 
@@ -25,7 +26,7 @@ public class SecurityConfig {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;  // WE MAY NEED TO MAKE A CUSTOM userDetailsService FOR THIS TO WORK.
+    private CustomUserDetailsService userDetailsService;  // WE MAY NEED TO MAKE A CUSTOM userDetailsService FOR THIS TO WORK.
     
 
     @Bean

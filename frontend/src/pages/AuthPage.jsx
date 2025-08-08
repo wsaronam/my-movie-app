@@ -34,9 +34,10 @@ const AuthPage = () => {
 
         try {
             const res = await axios.post(`http://localhost:8080${endpoint}`, form);
-            if (isLogin && res.data === "Login successful") {
+            if (isLogin && res.data.token) {
                 localStorage.setItem('isLogin', true);
                 localStorage.setItem("username", form.username);
+                localStorage.setItem("token", res.data.token);
                 navigate('/home');
             }
             else {
