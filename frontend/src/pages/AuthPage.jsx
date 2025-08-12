@@ -34,6 +34,7 @@ const AuthPage = () => {
 
         try {
             const res = await axios.post(`http://localhost:8080${endpoint}`, form);
+            console.log(res.data);
             if (isLogin && res.data.token) {
                 localStorage.setItem('isLogin', true);
                 localStorage.setItem("username", form.username);
