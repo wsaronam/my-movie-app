@@ -58,6 +58,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User loginUser) {
         Optional<User> user = userRepo.findByUsername(loginUser.getUsername());
+        System.out.println("Login request: " + loginUser);
 
         
 
