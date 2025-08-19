@@ -1,9 +1,11 @@
 package com.example.movie_app.config;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 
 import org.springframework.stereotype.Component;
+
+import java.security.Key;
 
 import java.util.Date;
 
@@ -11,7 +13,8 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String jwtSecret = "jwtSecret_key_goes_here";  // Good key goes here
+    private final String jwtSecret = "jwtSecret0key0goes0here101010101abcdefghijklmnopqrstuvwxyz1234567890";  // Good secret goes here
+    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes()); // key is made here
 
     public String generateToken(String username) {
         return Jwts.builder()
@@ -23,10 +26,12 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser()
-            .setSigningKey(jwtSecret)
+        return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
             .parseClaimsJws(token)
             .getBody()
             .getSubject();
     }
 }
+
