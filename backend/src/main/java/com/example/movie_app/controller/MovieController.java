@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -54,7 +55,9 @@ public class MovieController {
 
     
     @PostMapping("/add")
-    public ResponseEntity<?> addMovie(@RequestBody Movie movie, @RequestParam String username) {
+    //public ResponseEntity<?> addMovie(@RequestBody Movie movie, @RequestParam String username) {
+    public ResponseEntity<?> addMovie(@RequestBody Movie movie, Principal principal) {
+        String username = principal.getName();
         User user = userRepo.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
         
@@ -65,7 +68,9 @@ public class MovieController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<Movie>> getMovies(@RequestParam String username) {
+    //public ResponseEntity<List<Movie>> getMovies(@RequestParam String username) {
+    public ResponseEntity<List<Movie>> getMovies(Principal principal) {
+        String username = principal.getName();
         User user = userRepo.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -73,7 +78,9 @@ public class MovieController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<?> removeMovie(@RequestParam String username, @RequestParam Long movieId) {
+    //public ResponseEntity<?> removeMovie(@RequestParam String username, @RequestParam Long movieId) {
+    public ResponseEntity<?> removeMovie(@RequestParam Long movieId, Principal principal) {
+        String username = principal.getName();
         User user = userRepo.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
 

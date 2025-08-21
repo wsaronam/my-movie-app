@@ -31,11 +31,9 @@ const AuthPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-        console.log("form:", form);
 
         try {
             const res = await axios.post(`http://localhost:8080${endpoint}`, form);
-            console.log(res.data);
             if (isLogin && res.data.token) {
                 localStorage.setItem('isLogin', true);
                 localStorage.setItem("username", form.username);
