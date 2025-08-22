@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import logo from '../georgia-vagim-movie.jpg';
@@ -22,6 +22,36 @@ const HomePage = () => {
   const [newReview, setNewReview] = useState('');
 
   const [showAddForm, setShowAddForm] = useState(false);
+
+  const [movies, setMovies] = useState([]);
+
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const res = await fetch(`http://localhost:8080/api/movies/user?username=${username}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setMovies(data);
+        } 
+        else {
+          console.error("Failed to fetch movies");
+        }
+      } 
+      catch (err) {
+        console.error("Error fetching movies", err);
+      }
+    };
+
+    fetchMovies();
+  }, []);
 
 
   const testMovie = {
@@ -64,6 +94,7 @@ const HomePage = () => {
       if (res.ok) {
         const savedMovie = await res.json();
         console.log("Movie added:", savedMovie);
+        setMovies((prevMovies) => [...prevMovies, savedMovie]);
         setNewTitle('');
         setNewDescription('');
         setNewReleaseYear(1900);
@@ -135,11 +166,13 @@ const HomePage = () => {
             <button onClick={handleAddMovie}>Submit</button>
           </div>
         )}
-        {/* <MovieCard 
-          movie={testMovie}
-          onToggleWatched={handleToggleWatched}
-          onDelete={handleDelete} 
-        /> */}
+        <ul>
+          {movies.map(movie => (
+            <li key={movie.id}>
+              <strong>{movie.title}</strong> ({movie.description}) - {movie.watched ? "Watched" : "Not Watched"}
+            </li>
+          ))}
+        </ul>
       </header>
     </div>
   );
