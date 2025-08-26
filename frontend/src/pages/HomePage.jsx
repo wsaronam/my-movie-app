@@ -155,7 +155,7 @@ const HomePage = () => {
             <input
               type="checkbox"
               value={newHasWatched}
-              onChange={(e) => setNewHasWatched(e.target.value)}
+              onChange={(e) => setNewHasWatched(e.target.checked)}
             />
             <textarea
               type="text"
@@ -166,13 +166,19 @@ const HomePage = () => {
             <button onClick={handleAddMovie}>Submit</button>
           </div>
         )}
-        <ul>
-          {movies.map(movie => (
-            <li key={movie.id}>
-              <strong>{movie.title}</strong> ({movie.description}) - {movie.watched ? "Watched" : "Not Watched"}
-            </li>
-          ))}
-        </ul>
+        <div className="movie-list">
+          <ul>
+            {movies.map(movie => (
+              <li key={movie.id} className="movie-card">
+                <h3>{movie.title}</h3>
+                <p className="description">{movie.description}</p>
+                <p><strong>Release Year:</strong> {movie.releaseYear}</p>
+                <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
+                <p className="review">💬 {movie.review}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </header>
     </div>
   );
