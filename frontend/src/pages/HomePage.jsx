@@ -166,19 +166,20 @@ const HomePage = () => {
             <button onClick={handleAddMovie}>Submit</button>
           </div>
         )}
-        <div className="movie-list">
-          <ul>
+        <div className="movies-container">
+          <div className="movie-list">
             {movies.map(movie => (
-              <li key={movie.id} className="movie-card">
+              <div key={movie.id} className="movie-card">
                 <h3>{movie.title}</h3>
                 <p className="description">{movie.description}</p>
                 <p><strong>Release Year:</strong> {movie.releaseYear}</p>
                 <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
                 <p className="review">💬 {movie.review}</p>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
+        
       </header>
     </div>
   );
