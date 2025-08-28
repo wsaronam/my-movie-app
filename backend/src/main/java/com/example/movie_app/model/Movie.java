@@ -18,9 +18,11 @@ public class Movie {
     private Long id;
 
     private String title;
+    @Lob
     private String description;
     private int releaseYear;
     private boolean watched;
+    @Lob
     private String review;
 
     // we may use this in the future if we want to tie in a movie with the User

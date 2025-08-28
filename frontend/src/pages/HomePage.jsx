@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../georgia-vagim-movie.jpg';
 import MovieCard from '../components/MovieCard';
 
+import CollapsibleText from '../components/CollapsibleText';
+
 import '../App.css';
 import './styles/HomePage.css';
 
@@ -154,7 +156,7 @@ const HomePage = () => {
             <label>Watched?:</label>
             <input
               type="checkbox"
-              value={newHasWatched}
+              checked={newHasWatched}
               onChange={(e) => setNewHasWatched(e.target.checked)}
             />
             <textarea
@@ -171,10 +173,12 @@ const HomePage = () => {
             {movies.map(movie => (
               <div key={movie.id} className="movie-card">
                 <h3>{movie.title}</h3>
-                <p className="description">{movie.description}</p>
+                <CollapsibleText text={movie.description} maxLength={120} />
+                {/* <p className="description">{movie.description}</p> */}
                 <p><strong>Release Year:</strong> {movie.releaseYear}</p>
                 <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
-                <p className="review">💬 {movie.review}</p>
+                <CollapsibleText text={movie.description} maxLength={120} />
+                {/* <p className="review">💬 {movie.review}</p> */}
               </div>
             ))}
           </div>
