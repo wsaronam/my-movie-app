@@ -5,6 +5,7 @@ import logo from '../georgia-vagim-movie.jpg';
 import MovieCard from '../components/MovieCard';
 
 import CollapsibleText from '../components/CollapsibleText';
+import EditMovieForm from '../components/EditMovieForm';
 
 import '../App.css';
 import './styles/HomePage.css';
@@ -24,8 +25,10 @@ const HomePage = () => {
   const [newReview, setNewReview] = useState('');
 
   const [showAddForm, setShowAddForm] = useState(false);
+  const [editingMovie, setEditingMovie] = useState(null);
 
   const [movies, setMovies] = useState([]);
+  const [errors, setErrors] = useState({});
 
 
   useEffect(() => {
@@ -55,16 +58,6 @@ const HomePage = () => {
     fetchMovies();
   }, []);
 
-
-  const testMovie = {
-    id: 0,
-    title: "harry potter",
-    description: "wizard boy!!",
-    year: 2000,
-    watched: false,
-    review: ""
-  };
-
   const handleLogout = () => {
     localStorage.removeItem('isLogin');
     navigate('/');
@@ -72,6 +65,7 @@ const HomePage = () => {
 
   const handleAddMovie = async () => {
     const username = localStorage.getItem("username");
+    let tempErrors = {};
 
     const newMovie = {
       title: newTitle,
@@ -81,9 +75,16 @@ const HomePage = () => {
       review: newReview
     };
 
+    // check if there's a title.  Title is required.
+    if (!newTitle.trim()) tempErrors.title = "Title is required";
+    setErrors(tempErrors);
+
+    // stop if there are errors
+    if (Object.keys(tempErrors).length > 0) return;
+
+
     try {
       const token = localStorage.getItem("token");
-      //const res = await fetch(`http://localhost:8080/api/movies/add?username=${username}`, {
       const res = await fetch("http://localhost:8080/api/movies/add", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -112,13 +113,34 @@ const HomePage = () => {
     }
   };
 
-  const handleToggleWatched = (movie) => {
-    alert(`watched alert`);
+  const handleEditClick = (movie) => {
+    setEditingMovie(movie); // save which movie we're updating
   };
 
-  const handleDelete = (id) => {
-    alert(`deleted alert`);
+  const updateMovie = async (movie) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`/api/movies/${movie.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(movie),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update movie");
+    } 
+
+    return await response.json(); // backend should return updated movie
   };
+
+  const handleUpdateMovie = async (updatedMovie) => {
+    const savedMovie = await updateMovie(updatedMovie);
+    setMovies(movies.map(m => (m.id === savedMovie.id ? savedMovie : m)));
+    setEditingMovie(null); // resets the movie - no more movie being editted
+  };
+
 
   return (
     <div className="App">
@@ -141,6 +163,7 @@ const HomePage = () => {
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Title"
             />
+            {errors.title && <p className="error">{errors.title}</p>}
             <textarea
               type="text"
               value={newDescription}
@@ -172,13 +195,22 @@ const HomePage = () => {
           <div className="movie-list">
             {movies.map(movie => (
               <div key={movie.id} className="movie-card">
-                <h3>{movie.title}</h3>
-                <CollapsibleText text={movie.description} maxLength={120} />
-                {/* <p className="description">{movie.description}</p> */}
-                <p><strong>Release Year:</strong> {movie.releaseYear}</p>
-                <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
-                <CollapsibleText text={movie.description} maxLength={120} />
-                {/* <p className="review">💬 {movie.review}</p> */}
+                {editingMovie?.id === movie.id ? (
+                  <EditMovieForm
+                    movie={movie}
+                    onSave={handleUpdateMovie}
+                    onCancel={() => setEditingMovie(null)}
+                  />
+                ) : (
+                  <>
+                    <h3>{movie.title}</h3>
+                    <CollapsibleText text={movie.description} maxLength={120} />
+                    <p><strong>Release Year:</strong> {movie.releaseYear}</p>
+                    <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
+                    <CollapsibleText text={movie.review} maxLength={120} />
+                    <button onClick={() => handleEditClick(movie)}>✏️ Edit</button>
+                  </>
+                )}
               </div>
             ))}
           </div>
