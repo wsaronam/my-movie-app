@@ -6,6 +6,7 @@ import com.example.movie_app.repository.UserRepository;
 import com.example.movie_app.repository.MovieRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,6 +68,35 @@ public class MovieController {
         return ResponseEntity.ok(movieRepo.save(movie));
     }
 
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> updateMovie(
+            @PathVariable("id") Long id,
+            @RequestBody Movie updatedMovie,
+            @RequestParam("username") String username) {
+        
+        System.out.println(">>> updateMovie called for user: " + username);
+
+        // User user = userRepo.findByUsername(username)
+        //         .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Movie movie = movieRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
+
+        // if (!user.getMovies().contains(movie)) {
+        //     return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        // }
+
+        movie.setTitle(updatedMovie.getTitle());
+        movie.setDescription(updatedMovie.getDescription());
+        movie.setReleaseYear(updatedMovie.getReleaseYear());
+        movie.setWatched(updatedMovie.isWatched());
+        movie.setReview(updatedMovie.getReview());
+
+        return ResponseEntity.ok(movieRepo.save(movie));
+    }
+
+
     @GetMapping("/user")
     //public ResponseEntity<List<Movie>> getMovies(@RequestParam String username) {
     public ResponseEntity<List<Movie>> getMovies(Principal principal) {
@@ -77,6 +107,7 @@ public class MovieController {
         return ResponseEntity.ok(user.getMovies());
     }
 
+    
     @DeleteMapping("/remove")
     //public ResponseEntity<?> removeMovie(@RequestParam String username, @RequestParam Long movieId) {
     public ResponseEntity<?> removeMovie(@RequestParam Long movieId, Principal principal) {

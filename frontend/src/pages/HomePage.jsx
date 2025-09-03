@@ -119,7 +119,8 @@ const HomePage = () => {
 
   const updateMovie = async (movie) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`/api/movies/${movie.id}`, {
+    const username = localStorage.getItem("username");
+    const response = await fetch(`http://localhost:8080/api/movies/${movie.id}?username=${username}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
