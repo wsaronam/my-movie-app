@@ -6,6 +6,7 @@ import MovieCard from '../components/MovieCard';
 
 import CollapsibleText from '../components/CollapsibleText';
 import EditMovieForm from '../components/EditMovieForm';
+import Modal from '../components/Modal';
 
 import '../App.css';
 import './styles/HomePage.css';
@@ -194,7 +195,7 @@ const HomePage = () => {
         )}
         <div className="movies-container">
           <div className="movie-list">
-            {movies.map(movie => (
+            {/* {movies.map(movie => (
               <div key={movie.id} className="movie-card">
                 {editingMovie?.id === movie.id ? (
                   <EditMovieForm
@@ -213,7 +214,28 @@ const HomePage = () => {
                   </>
                 )}
               </div>
+            ))} */}
+            {movies.map(movie => (
+              <div key={movie.id} className="movie-card">
+                <h3>{movie.title}</h3>
+                <CollapsibleText text={movie.description} maxLength={120} />
+                <p><strong>Release Year:</strong> {movie.releaseYear}</p>
+                <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
+                <CollapsibleText text={movie.review} maxLength={120} />
+                <button onClick={() => handleEditClick(movie)}>✏️ Edit</button>
+              </div>
             ))}
+
+            <Modal isOpen={!!editingMovie} onClose={() => setEditingMovie(null)}>
+              {editingMovie && (
+                <EditMovieForm
+                  movie={editingMovie}
+                  onSave={handleUpdateMovie}
+                  onCancel={() => setEditingMovie(null)}
+                />
+              )}
+            </Modal>
+            
           </div>
         </div>
         
