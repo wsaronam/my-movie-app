@@ -1,0 +1,77 @@
+.edit-movie-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #1503b3;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+}
+
+.edit-movie-form h3 {
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.edit-movie-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.edit-movie-form input[type="text"],
+.edit-movie-form input[type="number"],
+.edit-movie-form textarea {
+  margin-top: 4px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.edit-movie-form textarea {
+  resize: vertical;
+}
+
+.checkbox-label {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.save-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #43a047;
+}
+
+.cancel-btn {
+  background: #e53935;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #c62828;
+}

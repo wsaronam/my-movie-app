@@ -12,7 +12,7 @@
 }
 
 .modal-content {
-  background: #ffffff;
+  background: #0d0080;
   padding: 1.5rem;
   border-radius: 12px;
   width: 400px;
@@ -30,3 +30,5 @@
   font-size: 1.2rem;
   cursor: pointer;
 }
+
+
