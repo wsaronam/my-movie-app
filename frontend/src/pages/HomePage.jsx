@@ -151,10 +151,16 @@ const HomePage = () => {
         <p>
           Movie App
         </p>
-        <button className="logout-button" onClick={handleLogout}>
+        <button className="logout-button" 
+                onClick={() => {
+                  if (window.confirm("Are you sure you want to log out?")) {
+                    handleLogout();
+                  }
+                }}
+        >
           Logout
         </button>
-        <button onClick={() => setShowAddForm(!showAddForm)}>
+        <button className="add-movie-button" onClick={() => setShowAddForm(!showAddForm)}>
           {showAddForm ? 'Cancel' : 'Add New Movie'}
         </button>
         {showAddForm && (

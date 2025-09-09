@@ -82,7 +82,7 @@ const AuthPage = () => {
                     </form>
                 <p>
                     {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
-                    <button onClick={() => {
+                    <button className = "switch-btn" onClick={() => {
                         setIsLogin(!isLogin);
                         setForm({ username: '', password: '' })
                         setMessage('');
