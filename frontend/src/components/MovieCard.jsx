@@ -1,26 +1,31 @@
+import CollapsibleText from "./CollapsibleText";
+
 import './styles/MovieCard.css';
 
-import React from 'react';
 
-const MovieCard = ({ movie, onToggleWatched, onDelete }) => {
+
+
+const MovieCard = ({ movie, onEdit, onDelete }) => {
+
+  const handleDeleteClick = () => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete "${movie.title}"?`
+    );
+    if (confirmDelete) {
+      onDelete(movie.id);
+    }
+  };
+
   return (
     <div className="movie-card">
-      <h2>{movie.title} ({movie.year})</h2>
-      <p><strong>Description:</strong> {movie.description}</p>
-      <p>
-        <strong>Status:</strong>{' '}
-        <span style={{ color: movie.watched ? 'green' : 'red' }}>
-          {movie.watched ? 'Watched' : 'Unwatched'}
-        </span>
-      </p>
-      <p><strong>Review:</strong> {movie.review || 'No review yet.'}</p>
-      <div>
-        <button className="watch-btn" onClick={() => onToggleWatched(movie)}>
-          {movie.watched ? 'Mark Unwatched' : 'Mark Watched'}
-        </button>
-        <button className="delete-btn" onClick={() => onDelete(movie.id)}>
-          Delete
-        </button>
+      <h3>{movie.title}</h3>
+      <CollapsibleText text={movie.description} maxLength={120} />
+      <p><strong>Release Year:</strong> {movie.releaseYear}</p>
+      <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
+      <CollapsibleText text={movie.review} maxLength={120} />
+      <div className="card-buttons">
+        <button onClick={() => onEdit(movie)}>✏️ Edit</button>
+        <button onClick={handleDeleteClick} className="delete-btn">🗑 Delete</button>
       </div>
     </div>
   );

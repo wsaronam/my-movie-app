@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import logo from '../georgia-vagim-movie.jpg';
-import MovieCard from '../components/MovieCard';
 
-import CollapsibleText from '../components/CollapsibleText';
+import MovieCard from '../components/MovieCard';
+import AddMovieForm from '../components/AddMovieForm';
 import EditMovieForm from '../components/EditMovieForm';
 import Modal from '../components/Modal';
 
@@ -143,6 +143,25 @@ const HomePage = () => {
     setEditingMovie(null); // resets the movie - no more movie being editted
   };
 
+  const deleteMovie = async (id) => {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+
+    const response = await fetch(`http://localhost:8080/api/movies/${id}?username=${username}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete movie");
+    }
+
+    setMovies(movies.filter((m) => m.id !== id));
+  };
+
 
   return (
     <div className="App">
@@ -164,40 +183,20 @@ const HomePage = () => {
           {showAddForm ? 'Cancel' : 'Add New Movie'}
         </button>
         {showAddForm && (
-          <div className="movie-form">
-            <input
-              type="text"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-              placeholder="Title"
-            />
-            {errors.title && <p className="error">{errors.title}</p>}
-            <textarea
-              type="text"
-              value={newDescription}
-              onChange={(e) => setNewDescription(e.target.value)}
-              placeholder="Description"
-            />
-            <input
-              type="number"
-              value={newReleaseYear}
-              onChange={(e) => setNewReleaseYear(e.target.value)}
-              placeholder="Release Year"
-            />
-            <label>Watched?:</label>
-            <input
-              type="checkbox"
-              checked={newHasWatched}
-              onChange={(e) => setNewHasWatched(e.target.checked)}
-            />
-            <textarea
-              type="text"
-              value={newReview}
-              onChange={(e) => setNewReview(e.target.value)}
-              placeholder="Your Review"
-            />
-            <button onClick={handleAddMovie}>Submit</button>
-          </div>
+          <AddMovieForm
+            newTitle={newTitle}
+            setNewTitle={setNewTitle}
+            newDescription={newDescription}
+            setNewDescription={setNewDescription}
+            newReleaseYear={newReleaseYear}
+            setNewReleaseYear={setNewReleaseYear}
+            newHasWatched={newHasWatched}
+            setNewHasWatched={setNewHasWatched}
+            newReview={newReview}
+            setNewReview={setNewReview}
+            errors={errors}
+            onSubmit={handleAddMovie}
+          />
         )}
         <div className="movies-container">
           <div className="movie-list">
@@ -222,14 +221,20 @@ const HomePage = () => {
               </div>
             ))} */}
             {movies.map(movie => (
-              <div key={movie.id} className="movie-card">
-                <h3>{movie.title}</h3>
-                <CollapsibleText text={movie.description} maxLength={120} />
-                <p><strong>Release Year:</strong> {movie.releaseYear}</p>
-                <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
-                <CollapsibleText text={movie.review} maxLength={120} />
-                <button onClick={() => handleEditClick(movie)}>✏️ Edit</button>
-              </div>
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                onEdit={handleEditClick}
+                onDelete={deleteMovie}
+              />
+              // <div key={movie.id} className="movie-card">
+              //   <h3>{movie.title}</h3>
+              //   <CollapsibleText text={movie.description} maxLength={120} />
+              //   <p><strong>Release Year:</strong> {movie.releaseYear}</p>
+              //   <p><strong>Status:</strong> {movie.watched ? "✅ Watched" : "❌ Not Watched"}</p>
+              //   <CollapsibleText text={movie.review} maxLength={120} />
+              //   <button onClick={() => handleEditClick(movie)}>✏️ Edit</button>
+              // </div>
             ))}
 
             <Modal isOpen={!!editingMovie} onClose={() => setEditingMovie(null)}>
