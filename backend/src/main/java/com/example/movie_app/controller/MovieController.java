@@ -110,8 +110,8 @@ public class MovieController {
     
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(
-            @PathVariable Long id,
-            @RequestParam String username) {
+            @PathVariable("id") Long id,
+            @RequestParam("username") String username) {
 
         movieRepo.deleteById(id);
         return ResponseEntity.noContent().build();
