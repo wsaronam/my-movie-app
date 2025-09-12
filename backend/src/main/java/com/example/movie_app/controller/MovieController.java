@@ -6,7 +6,6 @@ import com.example.movie_app.repository.UserRepository;
 import com.example.movie_app.repository.MovieRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,6 @@ import java.util.List;
 @RequestMapping("/api/movies")
 @CrossOrigin(origins = "http://localhost:3000")  // i'm just on my machine
 public class MovieController {
-    //private final MovieRepository repository;
 
     @Autowired
     private UserRepository userRepo;
@@ -28,35 +26,8 @@ public class MovieController {
     @Autowired
     private MovieRepository movieRepo;
     
-
-    // public MovieController(MovieRepository repository) {
-    //     this.repository = repository;
-    // }
-
-    // @GetMapping
-    // public ArrayList<Movie> getAll() {
-    //     return repository.findAll();
-    // }
-    
-    // @PostMapping
-    // public Movie create(@RequestBody Movie movie) {
-    //     return repository.save(movie);
-    // }
-
-    // @PutMapping("/{id}")
-    // public Movie update(@PathVariable Long id, @RequestBody Movie movie) {
-    //     movie.setId(id);
-    //     return repository.save(movie);
-    // }
-
-    // @DeleteMapping("/{id}")
-    // public void delete(@PathVariable Long id) {
-    //     repository.deleteById(id);
-    // }
-
     
     @PostMapping("/add")
-    //public ResponseEntity<?> addMovie(@RequestBody Movie movie, @RequestParam String username) {
     public ResponseEntity<?> addMovie(@RequestBody Movie movie, Principal principal) {
         String username = principal.getName();
         User user = userRepo.findByUsername(username)
@@ -74,18 +45,10 @@ public class MovieController {
             @PathVariable("id") Long id,
             @RequestBody Movie updatedMovie,
             @RequestParam("username") String username) {
-        
-        System.out.println(">>> updateMovie called for user: " + username);
-
-        // User user = userRepo.findByUsername(username)
-        //         .orElseThrow(() -> new RuntimeException("User not found"));
 
         Movie movie = movieRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
 
-        // if (!user.getMovies().contains(movie)) {
-        //     return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        // }
 
         movie.setTitle(updatedMovie.getTitle());
         movie.setDescription(updatedMovie.getDescription());
@@ -98,7 +61,6 @@ public class MovieController {
 
 
     @GetMapping("/user")
-    //public ResponseEntity<List<Movie>> getMovies(@RequestParam String username) {
     public ResponseEntity<List<Movie>> getMovies(Principal principal) {
         String username = principal.getName();
         User user = userRepo.findByUsername(username)

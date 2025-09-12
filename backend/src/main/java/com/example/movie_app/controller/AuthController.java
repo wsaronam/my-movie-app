@@ -58,14 +58,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User loginUser) {
         Optional<User> user = userRepo.findByUsername(loginUser.getUsername());
-        System.out.println("Login request: " + loginUser);
-
-        
 
         if (user.isPresent() && passEncoder.matches(loginUser.getPassword(), user.get().getPassword())) {
-            System.out.println("Raw password: " + loginUser.getPassword());
-            System.out.println("Stored hash pass: " + user.get().getPassword());
-            System.out.println("match?: " + passEncoder.matches(loginUser.getPassword(), user.get().getPassword()));
 
             String token = jwtUtil.generateToken(loginUser.getUsername());
             return ResponseEntity.ok(new JwtResponse(token));

@@ -27,7 +27,7 @@ public class SecurityConfig {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;  // WE MAY NEED TO MAKE A CUSTOM userDetailsService FOR THIS TO WORK.
+    private CustomUserDetailsService userDetailsService;
     
 
     @Bean
@@ -44,7 +44,6 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // allows users to sign up or login without auth
-                //.anyRequest().permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

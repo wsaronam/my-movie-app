@@ -2,6 +2,9 @@ import React from 'react';
 import logo from '../georgia-vagim-movie.jpg'; 
 import "../App.css";;
 
+
+
+
 const Header = () => {
   return (
     <div className="App">

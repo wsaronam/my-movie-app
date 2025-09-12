@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import logo from '../georgia-vagim-movie.jpg';
-import Header from '../components/Header'
 import "./styles/AuthPage.css";
 
 

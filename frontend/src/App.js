@@ -4,6 +4,9 @@ import PrivateRoute from './components/PrivateRouter';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 
+
+
+
 function App() {
 
   return (
@@ -23,5 +26,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

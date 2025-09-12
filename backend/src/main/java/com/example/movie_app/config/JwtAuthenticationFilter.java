@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil, CustomUserDetailsService uds) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = uds; // WE MAY NEED TO MAKE A CUSTOM userDetailsService FOR THIS TO WORK.
+        this.userDetailsService = uds;
     }
 
     @Override

@@ -8,7 +8,6 @@ const Modal = ({ isOpen, onClose, children }) => {
 
   if (!isOpen) return null;
 
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div
@@ -23,5 +22,6 @@ const Modal = ({ isOpen, onClose, children }) => {
     </div>
   );
 };
+
 
 export default Modal;
